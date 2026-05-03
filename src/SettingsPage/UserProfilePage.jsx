@@ -288,18 +288,23 @@ const UserProfilePage = () => {
   const [activeTab, setActiveTab] = useState('personal');
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   
-  const [userData, setUserData] = useState({
-    name: 'John Doe',
-    email: 'john.doe@example.com',
-    phone: '+1 (555) 123-4567',
-    dob: '1985-06-15',
-    address: '123 Medical Center Drive, Suite 400, Boston, MA 02115',
-    gender: 'male',
-    bloodGroup: 'A+',
-    patientId: 'NS-2024-001234',
-    memberSince: 'Jan 2024',
+  const [userData, setUserData] = useState(() => {
+  const saved = localStorage.getItem('nephrosafe_profile');
+  if (saved) return JSON.parse(saved);
+  const auth = JSON.parse(localStorage.getItem('nephrosafe_auth') || '{}');
+  return {
+    name: auth.name || 'User',
+    email: auth.email || '',
+    phone: '',
+    dob: '',
+    address: '',
+    gender: '',
+    bloodGroup: '',
+    patientId: 'NS-' + (auth.email || 'guest').slice(0, 8).toUpperCase(),
+    memberSince: auth.loggedInAt ? new Date(auth.loggedInAt).toLocaleDateString('en-US', { month:'short', year:'numeric' }) : 'Today',
     profileImage: null
-  });
+  };
+});
 
   const [passwordData, setPasswordData] = useState({
     currentPassword: '',
@@ -341,9 +346,10 @@ const UserProfilePage = () => {
   };
 
   const handleSave = () => {
-    setShowSuccessMessage(true);
-    setTimeout(() => setShowSuccessMessage(false), 3000); // Hides success toast after 3 seconds
-  };
+  localStorage.setItem('nephrosafe_profile', JSON.stringify(userData));
+  setShowSuccessMessage(true);
+  setTimeout(() => setShowSuccessMessage(false), 3000);
+};
 
   // 3. Added Navigation Handlers
   const goToDashboard = () => navigate('/dashboard');
@@ -425,7 +431,7 @@ const UserProfilePage = () => {
       <footer className="bg-white border-t border-gray-200 mt-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <p className="text-center text-sm text-gray-600">
-            © 2024 NephroSafe. All rights reserved. | HIPAA Compliant | Secure Medical Platform
+            © 2026 NephroSafe. All rights reserved. | HIPAA Compliant | Secure Medical Platform
           </p>
         </div>
       </footer>
