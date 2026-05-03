@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // 1. Added this import
 import { 
   Activity, ArrowLeft, Download, Share2, AlertTriangle, 
   CheckCircle, TrendingUp, Calendar, User, Heart,
@@ -248,7 +249,12 @@ const PatientInfoCard = ({ patient }) => {
 
 // Main Prediction Result Page
 const PredictionResultPage = () => {
-  // Sample data - would come from API in production
+  const navigate = useNavigate(); // 2. Initialized Navigate hook
+
+  const handleBackToDashboard = () => {
+    navigate('/dashboard'); // 3. Function to handle redirection
+  };
+
   const patientData = {
     name: 'John Doe',
     id: 'P-2024-1234',
@@ -275,15 +281,39 @@ const PredictionResultPage = () => {
   const currentRisk = predictions[0].risk;
   const riskLevel = currentRisk < 0.3 ? 'Low' : currentRisk < 0.7 ? 'Medium' : 'High';
 
+  const handleDownloadPDF = () => {
+    window.print();
+  };
+
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: 'NephroSafe Assessment Results',
+          text: 'Here are the CKD risk assessment results from NephroSafe.',
+          url: window.location.href,
+        });
+      } catch (error) {
+        console.log('Sharing canceled.', error);
+      }
+    } else {
+      navigator.clipboard.writeText(window.location.href);
+      alert("Results link copied to clipboard!");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Back Button */}
-        <button className="flex items-center space-x-2 text-gray-600 hover:text-blue-600 mb-6 transition">
+        <button 
+          onClick={handleBackToDashboard}
+          className="flex items-center space-x-2 px-4 py-2 text-gray-600 hover:text-gray-900 transition rounded-lg hover:bg-gray-50 mb-6 print:hidden"
+        >
           <ArrowLeft className="w-5 h-5" />
-          <span className="font-medium">Back to Dashboard</span>
+          <span className="hidden sm:inline">Back to Dashboard</span>
         </button>
 
         {/* Header */}
@@ -292,23 +322,27 @@ const PredictionResultPage = () => {
             <h1 className="text-3xl font-bold text-gray-800">Prediction Results</h1>
             <p className="text-gray-600 mt-1">AI-powered CKD risk assessment</p>
           </div>
-          <div className="flex space-x-3">
-            <button className="flex items-center space-x-2 px-4 py-2 bg-white border-2 border-gray-300 rounded-lg hover:border-blue-600 transition">
+          
+          <div className="flex space-x-3 print:hidden">
+            <button 
+              onClick={handleDownloadPDF} 
+              className="flex items-center space-x-2 px-4 py-2 bg-white border-2 border-gray-300 rounded-lg hover:border-blue-600 transition"
+            >
               <Download className="w-5 h-5" />
               <span className="font-medium">Download PDF</span>
             </button>
-            <button className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-lg hover:shadow-lg transition">
+            <button 
+              onClick={handleShare} 
+              className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-lg hover:shadow-lg transition"
+            >
               <Share2 className="w-5 h-5" />
               <span className="font-medium">Share</span>
             </button>
           </div>
         </div>
 
-        {/* Main Content Grid */}
         <div className="grid lg:grid-cols-3 gap-6">
-          {/* Left Column */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Risk Score Card */}
             <div className="bg-white rounded-2xl shadow-lg p-8">
               <div className="flex flex-col md:flex-row items-center justify-around space-y-8 md:space-y-0">
                 <RiskScoreCircle score={predictions[0].risk} period="6-Month Risk" />
@@ -316,7 +350,6 @@ const PredictionResultPage = () => {
                 <RiskScoreCircle score={predictions[1].risk} period="12-Month Risk" />
               </div>
               
-              {/* Alert Banner */}
               <div className={`mt-8 p-4 rounded-xl flex items-start space-x-3 ${
                 riskLevel === 'Low' ? 'bg-green-50 border border-green-200' :
                 riskLevel === 'Medium' ? 'bg-yellow-50 border border-yellow-200' :
@@ -352,22 +385,17 @@ const PredictionResultPage = () => {
               </div>
             </div>
 
-            {/* Timeline and Features */}
             <div className="grid md:grid-cols-2 gap-6">
               <TimelinePrediction predictions={predictions} />
               <FeatureImportance features={features} />
             </div>
 
-            {/* Recommendations */}
             <Recommendations riskLevel={riskLevel} />
           </div>
 
-          {/* Right Column */}
           <div className="space-y-6">
-            {/* Patient Info */}
             <PatientInfoCard patient={patientData} />
 
-            {/* Model Info Card */}
             <div className="bg-white rounded-2xl shadow-lg p-6">
               <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
                 <Brain className="w-6 h-6 mr-2 text-blue-600" />
@@ -397,7 +425,6 @@ const PredictionResultPage = () => {
               </div>
             </div>
 
-            {/* Disclaimer Card */}
             <div className="bg-blue-50 border border-blue-200 rounded-2xl p-6">
               <h4 className="font-semibold text-blue-900 mb-2">Medical Disclaimer</h4>
               <p className="text-sm text-blue-800 leading-relaxed">

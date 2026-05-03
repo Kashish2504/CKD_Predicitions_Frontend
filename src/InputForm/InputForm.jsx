@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import {
   Activity,
   ArrowLeft,
@@ -729,6 +731,7 @@ const ReviewStep = ({ formData }) => {
 // --- Main App Component ---
 
 export default function InputForm() {
+  const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [fileName, setFileName] = useState('');
@@ -823,10 +826,34 @@ export default function InputForm() {
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    setIsSubmitting(false);
-    setFormSubmitted(true);
+    
+    try {
+      // 1. Format the data for the backend
+      const payload = {
+        age: parseFloat(formData.age),
+        bp: parseFloat(formData.bloodPressureSystolic),
+        sg: 1.020, 
+        al: parseFloat(formData.albumin),
+        su: parseFloat(formData.bloodSugar),
+        bgr: parseFloat(formData.bloodSugar), 
+        sc: parseFloat(formData.creatinine),
+        sod: parseFloat(formData.sodium),
+        pot: parseFloat(formData.potassium),
+        hemo: parseFloat(formData.hemoglobin)
+      };
+
+      // 2. Send it to FastAPI
+      const response = await axios.post('http://127.0.0.1:8000/predict', payload);
+      
+      // 3. Go to ResultPage with the AI prediction
+      navigate('/result', { state: { result: response.data } });
+
+    } catch (error) {
+      console.error("API Error:", error);
+      alert("Connection failed! Make sure your FastAPI backend is running.");
+    } finally {
+      setIsSubmitting(false); 
+    }
   };
 
   const renderStep = () => {
@@ -903,10 +930,13 @@ export default function InputForm() {
                 NephroSafe
               </span>
             </div>
-            <button className="flex items-center space-x-2 px-4 py-2 text-gray-600 hover:text-gray-900 transition rounded-lg hover:bg-gray-50">
-              <ArrowLeft className="w-5 h-5" />
-              <span className="hidden sm:inline">Back to Dashboard</span>
-            </button>
+            <button 
+  onClick={() => navigate('/dashboard')}
+  className="flex items-center space-x-2 px-4 py-2 text-gray-600 hover:text-gray-900 transition rounded-lg hover:bg-gray-50"
+>
+  <ArrowLeft className="w-5 h-5" />
+  <span className="hidden sm:inline">Back to Dashboard</span>
+</button>
           </div>
         </div>
       </nav>

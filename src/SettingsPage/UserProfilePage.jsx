@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // 1. Added Navigation Hook
 import { User, Mail, Phone, Calendar, MapPin, Lock, Bell, Shield, Database, LogOut, Camera, Save, X } from 'lucide-react';
 import Navbar from '../common/Navbar';
-
-// Separate Components
 
 // Profile Header Component
 const ProfileHeader = ({ userData, onImageChange }) => {
@@ -82,95 +81,48 @@ const PersonalInfoTab = ({ userData, handleInputChange }) => {
       
       <div className="grid md:grid-cols-2 gap-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Full Name
-          </label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
           <div className="relative">
             <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-            <input
-              type="text"
-              name="name"
-              value={userData.name}
-              onChange={handleInputChange}
-              className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
+            <input type="text" name="name" value={userData.name} onChange={handleInputChange} className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
           </div>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Email Address
-          </label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
           <div className="relative">
             <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-            <input
-              type="email"
-              name="email"
-              value={userData.email}
-              onChange={handleInputChange}
-              className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
+            <input type="email" name="email" value={userData.email} onChange={handleInputChange} className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
           </div>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Phone Number
-          </label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
           <div className="relative">
             <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-            <input
-              type="tel"
-              name="phone"
-              value={userData.phone}
-              onChange={handleInputChange}
-              className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
+            <input type="tel" name="phone" value={userData.phone} onChange={handleInputChange} className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
           </div>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Date of Birth
-          </label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Date of Birth</label>
           <div className="relative">
             <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-            <input
-              type="date"
-              name="dob"
-              value={userData.dob}
-              onChange={handleInputChange}
-              className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
+            <input type="date" name="dob" value={userData.dob} onChange={handleInputChange} className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
           </div>
         </div>
 
         <div className="md:col-span-2">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Address
-          </label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Address</label>
           <div className="relative">
             <MapPin className="absolute left-3 top-4 text-gray-400 w-5 h-5" />
-            <textarea
-              name="address"
-              value={userData.address}
-              onChange={handleInputChange}
-              rows="3"
-              className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
+            <textarea name="address" value={userData.address} onChange={handleInputChange} rows="3" className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
           </div>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Gender
-          </label>
-          <select
-            name="gender"
-            value={userData.gender}
-            onChange={handleInputChange}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          >
+          <label className="block text-sm font-medium text-gray-700 mb-2">Gender</label>
+          <select name="gender" value={userData.gender} onChange={handleInputChange} className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
             <option value="">Select Gender</option>
             <option value="male">Male</option>
             <option value="female">Female</option>
@@ -179,24 +131,13 @@ const PersonalInfoTab = ({ userData, handleInputChange }) => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Blood Group
-          </label>
-          <select
-            name="bloodGroup"
-            value={userData.bloodGroup}
-            onChange={handleInputChange}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          >
+          <label className="block text-sm font-medium text-gray-700 mb-2">Blood Group</label>
+          <select name="bloodGroup" value={userData.bloodGroup} onChange={handleInputChange} className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
             <option value="">Select Blood Group</option>
-            <option value="A+">A+</option>
-            <option value="A-">A-</option>
-            <option value="B+">B+</option>
-            <option value="B-">B-</option>
-            <option value="AB+">AB+</option>
-            <option value="AB-">AB-</option>
-            <option value="O+">O+</option>
-            <option value="O-">O-</option>
+            <option value="A+">A+</option><option value="A-">A-</option>
+            <option value="B+">B+</option><option value="B-">B-</option>
+            <option value="AB+">AB+</option><option value="AB-">AB-</option>
+            <option value="O+">O+</option><option value="O-">O-</option>
           </select>
         </div>
       </div>
@@ -215,62 +156,33 @@ const SecurityTab = ({ passwordData, handlePasswordChange }) => {
           <Shield className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
           <div>
             <h3 className="font-semibold text-blue-900 mb-1">Account Security</h3>
-            <p className="text-sm text-blue-700">
-              Keep your account secure by using a strong password and enabling two-factor authentication.
-            </p>
+            <p className="text-sm text-blue-700">Keep your account secure by using a strong password and enabling two-factor authentication.</p>
           </div>
         </div>
       </div>
 
       <div className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Current Password
-          </label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Current Password</label>
           <div className="relative">
             <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-            <input
-              type="password"
-              name="currentPassword"
-              value={passwordData.currentPassword}
-              onChange={handlePasswordChange}
-              className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="Enter current password"
-            />
+            <input type="password" name="currentPassword" value={passwordData.currentPassword} onChange={handlePasswordChange} className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Enter current password" />
           </div>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            New Password
-          </label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">New Password</label>
           <div className="relative">
             <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-            <input
-              type="password"
-              name="newPassword"
-              value={passwordData.newPassword}
-              onChange={handlePasswordChange}
-              className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="Enter new password"
-            />
+            <input type="password" name="newPassword" value={passwordData.newPassword} onChange={handlePasswordChange} className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Enter new password" />
           </div>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Confirm New Password
-          </label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Confirm New Password</label>
           <div className="relative">
             <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-            <input
-              type="password"
-              name="confirmPassword"
-              value={passwordData.confirmPassword}
-              onChange={handlePasswordChange}
-              className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="Confirm new password"
-            />
+            <input type="password" name="confirmPassword" value={passwordData.confirmPassword} onChange={handlePasswordChange} className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Confirm new password" />
           </div>
         </div>
       </div>
@@ -278,12 +190,8 @@ const SecurityTab = ({ passwordData, handlePasswordChange }) => {
       <div className="bg-gray-50 rounded-lg p-4 mt-6">
         <h3 className="font-semibold text-gray-800 mb-3">Two-Factor Authentication</h3>
         <div className="flex items-center justify-between">
-          <div>
-            <p className="text-sm text-gray-600">Add an extra layer of security to your account</p>
-          </div>
-          <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
-            Enable 2FA
-          </button>
+          <div><p className="text-sm text-gray-600">Add an extra layer of security to your account</p></div>
+          <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">Enable 2FA</button>
         </div>
       </div>
     </div>
@@ -312,12 +220,7 @@ const NotificationsTab = ({ notifications, handleNotificationChange }) => {
               <p className="text-sm text-gray-600">{setting.description}</p>
             </div>
             <label className="relative inline-flex items-center cursor-pointer">
-              <input
-                type="checkbox"
-                checked={notifications[setting.id]}
-                onChange={(e) => handleNotificationChange(setting.id, e.target.checked)}
-                className="sr-only peer"
-              />
+              <input type="checkbox" checked={notifications[setting.id]} onChange={(e) => handleNotificationChange(setting.id, e.target.checked)} className="sr-only peer" />
               <div className="w-11 h-6 bg-gray-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
             </label>
           </div>
@@ -338,9 +241,7 @@ const PrivacyTab = ({ privacy, handlePrivacyChange }) => {
           <Database className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
           <div>
             <h3 className="font-semibold text-yellow-900 mb-1">Your Data is Protected</h3>
-            <p className="text-sm text-yellow-700">
-              All your medical data is encrypted and stored securely. We comply with HIPAA regulations.
-            </p>
+            <p className="text-sm text-yellow-700">All your medical data is encrypted and stored securely. We comply with HIPAA regulations.</p>
           </div>
         </div>
       </div>
@@ -352,12 +253,7 @@ const PrivacyTab = ({ privacy, handlePrivacyChange }) => {
             <p className="text-sm text-gray-600">Allow healthcare providers to access your health data</p>
           </div>
           <label className="relative inline-flex items-center cursor-pointer">
-            <input
-              type="checkbox"
-              checked={privacy.shareDoctors}
-              onChange={(e) => handlePrivacyChange('shareDoctors', e.target.checked)}
-              className="sr-only peer"
-            />
+            <input type="checkbox" checked={privacy.shareDoctors} onChange={(e) => handlePrivacyChange('shareDoctors', e.target.checked)} className="sr-only peer" />
             <div className="w-11 h-6 bg-gray-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
           </label>
         </div>
@@ -368,12 +264,7 @@ const PrivacyTab = ({ privacy, handlePrivacyChange }) => {
             <p className="text-sm text-gray-600">Help improve CKD detection by sharing anonymized data</p>
           </div>
           <label className="relative inline-flex items-center cursor-pointer">
-            <input
-              type="checkbox"
-              checked={privacy.shareResearch}
-              onChange={(e) => handlePrivacyChange('shareResearch', e.target.checked)}
-              className="sr-only peer"
-            />
+            <input type="checkbox" checked={privacy.shareResearch} onChange={(e) => handlePrivacyChange('shareResearch', e.target.checked)} className="sr-only peer" />
             <div className="w-11 h-6 bg-gray-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
           </label>
         </div>
@@ -382,12 +273,8 @@ const PrivacyTab = ({ privacy, handlePrivacyChange }) => {
       <div className="mt-8 pt-6 border-t border-gray-200">
         <h3 className="text-lg font-semibold text-gray-800 mb-4">Data Management</h3>
         <div className="space-y-3">
-          <button className="w-full text-left px-4 py-3 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition">
-            Download My Data
-          </button>
-          <button className="w-full text-left px-4 py-3 bg-red-50 text-red-700 rounded-lg hover:bg-red-100 transition">
-            Delete My Account
-          </button>
+          <button className="w-full text-left px-4 py-3 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition">Download My Data</button>
+          <button className="w-full text-left px-4 py-3 bg-red-50 text-red-700 rounded-lg hover:bg-red-100 transition">Delete My Account</button>
         </div>
       </div>
     </div>
@@ -396,6 +283,8 @@ const PrivacyTab = ({ privacy, handlePrivacyChange }) => {
 
 // Main Profile Page Component
 const UserProfilePage = () => {
+  const navigate = useNavigate(); // 2. Initialized Navigate
+
   const [activeTab, setActiveTab] = useState('personal');
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   
@@ -453,17 +342,17 @@ const UserProfilePage = () => {
 
   const handleSave = () => {
     setShowSuccessMessage(true);
-    setTimeout(() => setShowSuccessMessage(false), 3000);
+    setTimeout(() => setShowSuccessMessage(false), 3000); // Hides success toast after 3 seconds
   };
 
-  const handleLogout = () => {
-    if (window.confirm('Are you sure you want to logout?')) {
-      alert('Logout functionality will redirect to login page');
-    }
-  };
+  // 3. Added Navigation Handlers
+  const goToDashboard = () => navigate('/dashboard');
+  const goToHistory = () => navigate('/history');
+  const goToNewAssessment = () => navigate('/inputform');
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-cyan-50">
+      
       {/* Success Message */}
       {showSuccessMessage && (
         <div className="fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 flex items-center gap-2 animate-fade-in">
@@ -477,6 +366,18 @@ const UserProfilePage = () => {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        {/* 4. Added Clickable Breadcrumbs */}
+        <div className="flex gap-4 mb-6 text-sm font-medium text-gray-500">
+           <button onClick={goToDashboard} className="hover:text-blue-600 transition">Dashboard</button>
+           <span>/</span>
+           <button onClick={goToHistory} className="hover:text-blue-600 transition">History</button>
+           <span>/</span>
+           <button onClick={goToNewAssessment} className="hover:text-blue-600 transition">New Assessment</button>
+           <span>/</span>
+           <span className="text-blue-600">Profile Settings</span>
+        </div>
+
         <ProfileHeader userData={userData} onImageChange={handleImageChange} />
 
         <div className="bg-white rounded-2xl shadow-lg p-6">
@@ -507,8 +408,10 @@ const UserProfilePage = () => {
               <Save className="w-4 h-4" />
               Save Changes
             </button>
+            
+            {/* 5. Fixed Cancel Button routing */}
             <button 
-              onClick={() => window.location.reload()}
+              onClick={goToDashboard}
               className="flex items-center gap-2 px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition font-medium"
             >
               <X className="w-4 h-4" />

@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Activity, Shield, TrendingUp, Clock, Users, Brain, ChevronRight, Menu, X, CheckCircle, BarChart3, Zap } from 'lucide-react';
 
 // Navbar Component
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -30,7 +32,11 @@ const Navbar = () => {
             <a href="#features" className="text-gray-700 hover:text-blue-600 transition font-medium scroll-smooth">Features</a>
             <a href="#how-it-works" className="text-gray-700 hover:text-blue-600 transition font-medium">How It Works</a>
             <a href="#about" className="text-gray-700 hover:text-blue-600 transition font-medium">About</a>
-            <button className="px-6 py-2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-lg hover:shadow-lg transform hover:-translate-y-0.5 transition">
+            {/* CORRECTED ROUTE: /inputform */}
+            <button 
+              onClick={() => navigate('/inputform')} 
+              className="px-6 py-2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-lg hover:shadow-lg transform hover:-translate-y-0.5 transition"
+            >
               Get Started
             </button>
           </div>
@@ -48,7 +54,10 @@ const Navbar = () => {
             <a href="#features" className="block text-gray-700 hover:text-blue-600 transition py-2">Features</a>
             <a href="#how-it-works" className="block text-gray-700 hover:text-blue-600 transition py-2">How It Works</a>
             <a href="#about" className="block text-gray-700 hover:text-blue-600 transition py-2">About</a>
-            <button className="w-full px-6 py-2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-lg">
+            <button 
+              onClick={() => navigate('/inputform')} 
+              className="w-full px-6 py-2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-lg"
+            >
               Get Started
             </button>
           </div>
@@ -60,6 +69,8 @@ const Navbar = () => {
 
 // Hero Component
 const Hero = () => {
+  const navigate = useNavigate();
+
   return (
     <section id="home" className="pt-20 md:pt-32 pb-16 md:pb-24 bg-gradient-to-br from-blue-50 via-white to-cyan-50 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -80,7 +91,11 @@ const Hero = () => {
               NephroSafe leverages advanced deep learning to identify Chronic Kidney Disease risk before symptoms appear, enabling early intervention and better outcomes.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <button className="px-8 py-4 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-lg font-semibold hover:shadow-xl transform hover:-translate-y-1 transition flex items-center justify-center">
+              {/* CORRECTED ROUTE: /inputform */}
+              <button 
+                onClick={() => navigate('/inputform')} 
+                className="px-8 py-4 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-lg font-semibold hover:shadow-xl transform hover:-translate-y-1 transition flex items-center justify-center"
+              >
                 Start Prediction
                 <ChevronRight className="w-5 h-5 ml-2" />
               </button>
@@ -295,6 +310,8 @@ const Stats = () => {
 
 // CTA Section
 const CTA = () => {
+  const navigate = useNavigate();
+
   return (
     <section className="py-20 bg-gray-50">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -304,7 +321,11 @@ const CTA = () => {
         <p className="text-xl text-gray-600 mb-8">
           Start your CKD risk assessment today and take the first step towards early prevention
         </p>
-        <button className="px-10 py-4 bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-lg rounded-lg font-semibold hover:shadow-xl transform hover:-translate-y-1 transition">
+        {/* CORRECTED ROUTE: /inputform */}
+        <button 
+          onClick={() => navigate('/inputform')} 
+          className="px-10 py-4 bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-lg rounded-lg font-semibold hover:shadow-xl transform hover:-translate-y-1 transition"
+        >
           Get Started Now
         </button>
       </div>
